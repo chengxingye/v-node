@@ -7,16 +7,28 @@ export default function patchData(el, key, pre, next) {
                         el.style[item] = next[item]
                     }
                 }
+                for (let item in pre) {
+                    //防止原型数据
+                    if (pre[item] && !next.hasOwnProperty(item)) {
+                        el.style[item] = ''
+                    }
+                }
             break;
         case 'class':
+            console.log('111',next)
             el.className = next
             break;
             default:
                 
             if(key.includes('on')){
-                el.addEventListener(key.slice(2),next)
+                if(pre){
+                    el.removeEventListener(key.slice(2),pre)
+                }
+                if(next){
+                    el.addEventListener(key.slice(2),next)
+                }
             }else{
-                el.setAttribute(key,next)
+                el && el.setAttribute(key,next)
             }
     }
 }

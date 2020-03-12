@@ -29,6 +29,7 @@ export default function createElement(tag, data, children) {
         flag, //vnode类型
         tag, //标签
         data,
+        key:data&&data.key,
         children,
         childrenFlag,
         el: null

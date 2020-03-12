@@ -1,15 +1,15 @@
 import patchData from './patchData'
 import { vnodeType,childrenFlagType } from '../type'
 
-function mount(vnode, container) {
+function mount(vnode, container,flagNode) {
     if (vnode.flag === vnodeType.HTML) {
-        mountElement(vnode, container)
+        mountElement(vnode, container,flagNode)
     } else if (vnode.flag === vnodeType.TEXT) {
         mountText(vnode, container)
     }
 }
 
-function mountElement(vnode, container) {
+function mountElement(vnode, container,flagNode) {
     let dom = document.createElement(vnode.tag)
     vnode.el = dom
     let {
@@ -32,11 +32,12 @@ function mountElement(vnode, container) {
             }
         }
     }
-    container.appendChild(dom)
+    flagNode?container.insertBefore(dom,flagNode):container.appendChild(dom)
 }
 
 function mountText(vnode, container) {
     let text = document.createTextNode(vnode.children)
+    vnode.el = text
     container.appendChild(text)
 }
 
